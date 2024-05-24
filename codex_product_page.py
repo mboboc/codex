@@ -1,15 +1,21 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
+DETAILS = "Detalii produs"
+ACTIVE_SUBSTANCES = "Substanţe active"
+RISK_AND_SECURITY = "Fraze de risc şi siguranţă"
+USAGES = "Utilizări"
+MRL = "MRL"
+
 
 def get_product_json(browser, url):
     # %%
     product_json = {
-        "details": {},
-        "active_substances": {},
-        "risk_and_security": {},
-        "usages": {},
-        "mrl": {}
+        DETAILS: {},
+        ACTIVE_SUBSTANCES: {},
+        RISK_AND_SECURITY: {},
+        USAGES: {},
+        MRL: {}
     }
 
     browser.get(url)
@@ -27,9 +33,13 @@ def get_product_json(browser, url):
             value = tr.find_element(By.XPATH, ".//td[2]").text.strip()
             details[name] = value
         except NoSuchElementException:
+            print(
+                "Some rows from the DETAILS section have been "
+                "skipped."
+            )
             continue
 
-    product_json["details"] = details
+    product_json[DETAILS] = details
     # print(details)
 
     # %%
@@ -55,9 +65,13 @@ def get_product_json(browser, url):
                     h3: um
                 }
             except NoSuchElementException:
+                print(
+                    "Some rows from the ACTIVE SUBSTANCES section have "
+                    "been skipped."
+                )
                 continue
 
-        product_json["active_substances"] = active_substances
+        product_json[ACTIVE_SUBSTANCES] = active_substances
         # print(active_substances)
 
     # %%
@@ -80,9 +94,13 @@ def get_product_json(browser, url):
                     h2: category
                 }
             except NoSuchElementException:
+                print(
+                    "Some rows from the RISK AND SECURITY section "
+                    "have been skipped."
+                )
                 continue
 
-        product_json["risk_and_security"] = risk_and_security
+        product_json[RISK_AND_SECURITY] = risk_and_security
         # print(risk_and_security)
 
     # %%
@@ -118,9 +136,13 @@ def get_product_json(browser, url):
                     h6: no_treatments
                 }
             except NoSuchElementException:
+                print(
+                    "Some rows from the USAGES section have been "
+                    "skipped."
+                )
                 continue
 
-        product_json["usages"] = usages
+        product_json[USAGES] = usages
         # print(usages)
 
     # %%
@@ -145,9 +167,10 @@ def get_product_json(browser, url):
                     h3: mrl
                 }
             except NoSuchElementException:
+                print("Some rows from the MRL section have been skipped.")
                 continue
 
-        product_json["mrl"] = mrl
+        product_json[MRL] = mrl
         # print(mrl)
 
     return product_json
