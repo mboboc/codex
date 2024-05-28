@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
-from codex_product_page import get_product_json
+from utils import get_product_json
 
 geckodriver_path = "/snap/bin/geckodriver"
 driver_service = webdriver.FirefoxService(executable_path=geckodriver_path)
